@@ -1,9 +1,7 @@
 {
-  "name": "vite-mern-template",
+  "name": "sesl1-challenge-2",
   "version": "1.0.0",
   "type": "module",
-  "repository": "https://github.com/apicgg/vite-mern-template.git",
-  "license": "MIT",
   "scripts": {
     "start": "vite",
     "build": "tsc && vite build",
