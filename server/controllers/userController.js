@@ -12,10 +12,14 @@ const registerUser = asyncHandler(async (req, res) => {
         throw new Error('Please add all fields');
     }
 
-    // Check if user already exists
-    const userExists = await User.findOne({ name });
-
-    // TODO - Input logic for user already existing
+    // Check if user already exists - if two of the same name exist, checks by password
+    const userExists = await User.find({ name });
+    for (let i = 0; i < userExists.length; i++) {
+        if ((await bcrypt.compare(password, userExists[i].password))) {
+            res.status(400);
+            throw new Error('User already exists');
+        }
+    }
 
     // Hash password
     const salt = await bcrypt.genSalt(10);
@@ -33,6 +37,7 @@ const registerUser = asyncHandler(async (req, res) => {
             name: user.name,
             token: generateToken(user._id),
         })
+
     } else {
         res.status(400);
         throw new Error('Invalid user data');
@@ -42,7 +47,13 @@ const registerUser = asyncHandler(async (req, res) => {
 const loginUser = asyncHandler(async (req, res) => {
     const { name, password } = req.body;
 
-    const user = await User.findOne({ name });
+    let user = await User.find({ name });
+    for (let i = 0; i < user.length; i++) {
+        if (await bcrypt.compare(password, user[i].password)) {
+            user = user[i];
+            break;
+        }
+    }
 
     if (user && (await bcrypt.compare(password, user.password))) {
         res.json({
@@ -50,6 +61,7 @@ const loginUser = asyncHandler(async (req, res) => {
             name: user.name,
             token: generateToken(user._id),
         });
+
     } else {
         res.status(401);
         throw new Error('Invalid name or password');
@@ -71,6 +83,7 @@ const generateToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, {
         expiresIn: '30d',
     });
+
 };
 
 module.exports = {
