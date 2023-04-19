@@ -2,6 +2,7 @@
   "name": "sesl1-challenge-2",
   "version": "1.0.0",
   "type": "module",
+  "license": "MIT",
   "scripts": {
     "start": "vite",
     "build": "tsc && vite build",
