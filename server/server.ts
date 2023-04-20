@@ -1,10 +1,17 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import { config } from 'dotenv';
+
 config();
 
 const app = express();
 const PORT = 5000;
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+app.use('/user', require('./routes/userRoutes'));
+app.use('/tasks', require('./routes/taskRoutes'));
 
 app.get('/', (_req, res) => {
     res.sendFile('index.html', { root: __dirname + '/../client' });
