@@ -6,6 +6,7 @@ import { faPlus, faXmark, faCalendarDays, faCircleExclamation, faListCheck} from
 import Datepicker from "tailwind-datepicker-react";
 import ReactPaginate from 'react-paginate';
 import 'bootstrap/dist/css/bootstrap.css';
+import '../dashboard.css';
 
 //static for styling
 let test_tasks:Task[] = [
@@ -172,10 +173,10 @@ const Dashboard:React.FC = ()=>{
 
     return (
         <>
-            <header className="bg-gradient-to-r from-purple-900 via-purple-600 to-purple-500 h-40 p-20 grid grid-cols-12">
-                <div className="self-center text-6xl font-semibold whitespace-nowrap text-white subpixel-antialiased col-span-11">Task Board</div>
+            <header className="h-32 px-20 py-10 grid grid-cols-12 font-serif">
+                <div className="self-center text-6xl font-semibold whitespace-nowrap text-black subpixel-antialiased col-span-11">Task Board</div>
                 <div className="col-span-1 w-full">
-                    <button className="font-semibold whitespace-nowrap text-white text-5xl mb-2" onClick={toggleModal}><FontAwesomeIcon icon={faPlus} size="xl" /></button>
+                    <button className="font-semibold whitespace-nowrap text-purple-800 text-5xl mb-2" onClick={toggleModal}><FontAwesomeIcon icon={faPlus} size="xl" /></button>
                     {isModalOpen ? 
                     <div id="add-modal" tabIndex={-1} className="fixed z-50 w-7/12 p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-10rem)] max-h-full m-[calc(20%)] mt-40">
                         <div className="relative bg-white rounded-lg shadow-lg border-2">
@@ -210,7 +211,7 @@ const Dashboard:React.FC = ()=>{
                     </div> :null}
                 </div>
             </header>
-            <div className="grid grid-cols-12 mx-20 mb-5 px-4 pt-4 h-10 font-semibold text-xl">
+            <div className="grid grid-cols-12 mx-20 mb-4 px-4 pt-4 h-10 font-semibold text-xl">
                 <div className="col-span-2">
                     Title
                 </div>
@@ -225,19 +226,19 @@ const Dashboard:React.FC = ()=>{
                 </div>
                 <div className="col-span-2">
                     Sort By: {" "}
-                    <select className="align-middle focus:ring-4 focus:outline-none rounded-lg border-black border-2 text-center py-0 my-auto h-8" value={sortOpt} onChange={handleSort}>
+                    <select className="focus:ring-4 focus:outline-none rounded-lg border-black border-2 text-center py-0 my-auto h-8" value={sortOpt} onChange={handleSort}>
                         <option value="title">Title</option>
                         <option value="status" className="block px-4 py-2 hover:bg-gray-100">Status</option>
                         <option value="due" className="block px-4 py-2 hover:bg-gray-100">Due Date</option>
                     </select>
                 </div>
             </div>
-            <div className="font-san grid gap-y-6 w-screen mb-8">
+            <div className="grid gap-y-6 w-screen mb-8">
                 {/* Delete Modal */}
                 {isDelModalOpen ?
-                     <div tabIndex={-1} className="fixed top-0 mx-auto z-50 p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(30%)] max-h-full mt-[calc(15%)] mx-[calc(30%)]">
+                     <div tabIndex={-1} className="fixed top-0 z-50 p-0 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(30%)] mt-[calc(20%)] mx-[calc(30%)] font-serif">
                         <div className="relative max-h-full">
-                            <div className="relative bg-white rounded-lg shadow-lg border-black border">
+                            <div className="relative bg-white rounded-lg shadow-xl">
                                 <button type="button" onClick={()=>setDelModalOpen(false)} className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center">
                                     <FontAwesomeIcon icon={faXmark}/>
                                     <span className="sr-only">Close modal</span>
@@ -256,9 +257,9 @@ const Dashboard:React.FC = ()=>{
                 :null}
                 {/* Update Modal */}
                 {isUpdateModalOpen ? 
-                    <div tabIndex={-1} className="fixed top-0 mx-auto z-50 p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(30%)] max-h-full mt-[calc(15%)] mx-[calc(30%)]">
+                    <div tabIndex={-1} className="fixed top-0 z-50 p-0 h-full overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(30%)] mt-[calc(20%)] mx-[calc(30%)] font-serif">
                         <div className="relative max-h-full">
-                            <div className="relative bg-white rounded-lg shadow-lg border-black border">
+                            <div className="relative bg-white rounded-lg shadow-xl">
                                 <button type="button" onClick={()=>setUpdateModalOpen(false)} className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center">
                                     <FontAwesomeIcon icon={faXmark}/>
                                     <span className="sr-only">Close modal</span>
@@ -266,13 +267,13 @@ const Dashboard:React.FC = ()=>{
                                 <div className="p-6 text-center">
                                     <FontAwesomeIcon icon={faListCheck} beat className="text-5xl"/>
                                     <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Select a new status for this task</h3>
-                                    <button onClick={()=>updateTask("Completed")} className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">
+                                    <button onClick={()=>updateTask("Completed")} className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 ml-0.5 mr-2 mb-2">
                                         Completed
                                     </button>
                                     <button onClick={()=>updateTask("In Progress")} className="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">
                                         In Progress
                                     </button>
-                                    <button onClick={()=>updateTask("Not Started")} className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">
+                                    <button onClick={()=>updateTask("Not Started")} className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-0.5 mb-2">
                                         Not Started
                                     </button>
                                 </div>

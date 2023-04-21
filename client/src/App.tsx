@@ -13,7 +13,7 @@ function App() {
   return (
     <>
       <Router>
-        <div className="App">
+        <div className="App bg-purple-200 pb-2" style = {{height:"max-content"}}>
           <Header />
           <Routes>
             <Route path="/" element={
