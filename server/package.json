@@ -7,8 +7,7 @@
     "watch": "tsc -w",
     "server": "nodemon server.ts",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "client": "npm start --prefix ../client",
-    "build": "npm run build --prefix ../server"
+    "client": "npm start --prefix ../client"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
