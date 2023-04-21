@@ -20,11 +20,11 @@ interface Prop{
 
 const TaskItem: React.FC<Prop> = ({task, clickDel, clickUpdate})=>{
     return (
-            <div className="bg-orange-200 shadow-md rounded grid grid-cols-12 mx-20 px-4 py-4 h-20" id={task._id}>
-                <div className="col-span-2 font-semibold text-ellipsis">
+            <div className="bg-white shadow-md rounded grid grid-cols-12 mx-20 px-4 py-4 h-20 font-mono border-2 border-black" id={task._id}>
+                <div className="col-span-2 font-semibold truncate mr-2">
                     {task.title}
                 </div>
-                <div className="col-span-4 text-ellipsis">
+                <div className="col-span-4 truncate">
                     {task.description}
                 </div>
                 <div className="col-span-2">

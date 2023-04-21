@@ -1,4 +1,4 @@
-import { faSignInAlt, faSignOutAlt, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faSignInAlt, faSignOutAlt, faUser, faCalendarCheck} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
@@ -30,32 +30,31 @@ const Header: React.FC = () => {
     }, [])
 
     return (
-        <div className="flex justify-between items-center p-4 border-b-2">
-            <div className="flex items-center">
+        <div className="flex justify-between items-center p-4 bg-gradient-to-r from-purple-900 via-purple-600 to-purple-500 text-white border-b font-mono">
+            <div className="flex items-center pr-0">
                 <Link to="/">
-                    <h1>Task Manager</h1>
+                    <h1 className="text-2xl"><FontAwesomeIcon icon={faCalendarCheck} />     Task Manager</h1>
                 </Link>
-                
             </div>
-            <span className="mr-2">Welcome {user}</span>
+            <span className="mr-2 text-serif text-white">Welcome {user}</span>
             <div className="">
-                <ul className="flex items-center ml-5 mr-5 justify-between">
+                <ul className="items-center mx-5 justify-between text-white">
                     {!user ?
-                    <li>
-                    <Link to="/login">
-                        <FontAwesomeIcon icon={faSignInAlt} /> Login
-                    </Link>
-                    </li>
+                        <li>
+                            <Link to="/login">
+                                <FontAwesomeIcon icon={faSignInAlt} /> Login
+                            </Link>
+                        </li>
                     : null }
                     <li>
-                    <Link to="/register">
-                        <FontAwesomeIcon icon={faUser} /> Register
-                    </Link>
+                        <Link to="/register">
+                            <FontAwesomeIcon icon={faUser} /> Register
+                        </Link>
                     </li>
                     <li>
-                    <Link to="/login" onClick={logout}>
-                        <FontAwesomeIcon icon={faSignOutAlt} /> Logout
-                    </Link>
+                        <Link to="/login" onClick={logout}>
+                            <FontAwesomeIcon icon={faSignOutAlt} /> Logout
+                        </Link>
                     </li>
                 </ul>
             </div>
