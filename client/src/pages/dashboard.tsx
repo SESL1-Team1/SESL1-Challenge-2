@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useMemo} from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import axios from "axios";
-
-import TaskItem, {Task, taskKey} from './task';
+import TaskItem, {Task, taskKey} from '../components/task';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faXmark, faCalendarDays, faCircleExclamation, faListCheck} from '@fortawesome/free-solid-svg-icons';
 import Datepicker from "tailwind-datepicker-react";
@@ -10,15 +9,15 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 //static for styling
 let test_tasks:Task[] = [
-    {_id:"1",title:"task 2",description:"Task 1",status: "not started", due: new Date(new Date().setDate(15))},
-    {_id:"2",title:"task 1",description:"Not task 2",status: "in progress", due: new Date((new Date().setDate(1)))},
-    {_id:"3",title:"task 4",description:"? task 3",status: "completed", due: new Date()},
-    {_id:"4",title:"task 1",description:"Ahh this is task 4",status: "completed", due: new Date(new Date().setDate(8))},
+    {_id:"1",title:"task 2",description:"Task 1",status: "not started", dueDate: new Date(new Date().setDate(15))},
+    {_id:"2",title:"task 1",description:"Not task 2",status: "in progress", dueDate: new Date((new Date().setDate(1)))},
+    {_id:"3",title:"task 4",description:"? task 3",status: "completed", dueDate: new Date()},
+    {_id:"4",title:"task 1",description:"Ahh this is task 4",status: "completed", dueDate: new Date(new Date().setDate(8))},
 ]
 
 //backend-url
 const url = "http://localhost:5000" 
-//uset token
+//user token
 const jwtToken = localStorage.getItem("user_token");
 
 const deleteTask = (id:Number)=>{
@@ -32,12 +31,16 @@ const updateStatus = ()=>{
 
 const Dashboard:React.FC = ()=>{
     //dynamically updated tasks
-    const [static_tasks,setData] = useState(test_tasks);
+    // TODO: update tasks when changed - infinite loop due to my lack of knowledge
+    const [static_tasks,setData] = useState<Task[]>([]);
     useEffect(()=>{
        // fetch data into static_tasks
-       const res = await axios.get("http://localhost:5000/tasks");
-       setTasks(res.data.tasks);
-    },[static_tasks]);
+       const fetchTasks = async () => {
+        const res = await axios.get("http://localhost:5000/tasks");
+        setData(res.data.tasks);
+       };
+       fetchTasks();
+    },[]);
 
     const [sortOpt,setSortOpt] = useState("due");
 
@@ -45,13 +48,12 @@ const Dashboard:React.FC = ()=>{
         setSortOpt(e.target.value);
     }
 
-    const [tasks, setTasks] = useState<Task[]>([]);
     const [pageNumber, setPageNumber] = useState(0);
 
     const tasksPerPage = 5;
     const pagesVisited = pageNumber * tasksPerPage;
-    const pageCount = Math.ceil(tasks.length / tasksPerPage);
-    const displayTasks = tasks.slice(pagesVisited, pagesVisited + tasksPerPage);
+    const pageCount = Math.ceil(static_tasks.length / tasksPerPage);
+    const displayTasks = static_tasks.slice(pagesVisited, pagesVisited + tasksPerPage);
 
     const handlePageChange = ({ selected: selectedPage }: { selected: number } ) => {
         setPageNumber(selectedPage);
@@ -91,12 +93,24 @@ const Dashboard:React.FC = ()=>{
     }
     const handleSubmit = async (event:any) => {
         event.preventDefault();
-        console.log(inputs.title);
-        console.log(inputs.description);
         //add new task
-        
+        await axios.post(
+            // `${url}/tasks`, url for production
+            `http://localhost:5000/tasks`,
+            {
+                title: inputs.title,
+                description: inputs.description,
+                status: "Not Started",
+                dueDate: selectedDate
+            },
+            {
+                // headers: {
+                //     Authorization: `JWT ${jwtToken}`
+                // }
+            }
+        );
         //close the modal
-        //toggleModal();
+        toggleModal();
     }
 
 
@@ -119,19 +133,17 @@ const Dashboard:React.FC = ()=>{
             setDelModalOpen(true);
         }
 
-    const deleteTask = ()=>{
+    const deleteTask = async ()=>{
         setDelModalOpen(false);
-        // await axios.delete(
-        //     `{url}/:{string}`,
-        //     {
-        //         headers: {
-        //             Authorization: `JWT ${jwtToken}`
-        //         },
-        //         data: {
-        //             source: source
-        //         }
-        //     }
-        // );
+        await axios.delete(
+            // `${url}/:${taskOnAct}`, url for production
+            `http://localhost:5000/tasks/${taskOnAct}`,
+            {
+                // headers: {
+                //     Authorization: `JWT ${jwtToken}`
+                // },
+            }
+        );
         setTaskOnAct("");
     }
 
@@ -145,17 +157,17 @@ const Dashboard:React.FC = ()=>{
     const updateTask = async (new_status:string)=>{
         setUpdateModalOpen(false);
         //update req
-        // await axios.put(
-        //     `{url}/:{string}`,
-        //     {
-        //         headers: {
-        //             Authorization: `JWT ${jwtToken}`
-        //         },
-        //         data: {
-        //             source: source
-        //         }
-        //     }
-        // );
+        await axios.put(
+            // `${url}/:${string}`, url for production
+            `http://localhost:5000/tasks/${taskOnAct}`,
+            {
+                status: new_status
+            },
+            // headers: {
+            //     Authorization: `JWT ${jwtToken}`
+            // },
+
+        ).then((res)=>{console.log(res.data)});
         setTaskOnAct("");
     }
 
@@ -191,7 +203,7 @@ const Dashboard:React.FC = ()=>{
                                             </div>
                                             <Datepicker onChange={handleChange} show={show} setShow={handleClose} classNames="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-0"/>
                                         </div>
-                                        <button type="submit" className="w-4/5 text-white bg-purple-800 hover:bg-purple-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mt-10 mx-20 text-center">Submit</button>
+                                        <button type="submit" onClick={handleSubmit} className="w-4/5 text-white bg-purple-800 hover:bg-purple-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mt-10 mx-20 text-center">Submit</button>
                                     </div>
                                 </form>
                             </div>
@@ -255,13 +267,13 @@ const Dashboard:React.FC = ()=>{
                                 <div className="p-6 text-center">
                                     <FontAwesomeIcon icon={faListCheck} beat className="text-5xl"/>
                                     <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Select a new status for this task</h3>
-                                    <button onClick={()=>updateTask("completed")} className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">
+                                    <button onClick={()=>updateTask("Completed")} className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">
                                         Completed
                                     </button>
-                                    <button onClick={()=>updateTask("in progress")} className="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">
+                                    <button onClick={()=>updateTask("In Progress")} className="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">
                                         In Progress
                                     </button>
-                                    <button onClick={()=>updateTask("not started")} className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">
+                                    <button onClick={()=>updateTask("Not Started")} className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">
                                         Not Started
                                     </button>
                                 </div>
