@@ -20,27 +20,21 @@ const url = "http://localhost:5000"
 //user token
 const jwtToken = localStorage.getItem("user_token");
 
-const deleteTask = (id:Number)=>{
-    
-}
-
-const updateStatus = ()=>{
-
-}
-
 
 const Dashboard:React.FC = ()=>{
     //dynamically updated tasks
-    // TODO: update tasks when changed - infinite loop due to my lack of knowledge
     const [static_tasks,setData] = useState<Task[]>([]);
+    const [refreshData, setRefreshData] = useState(false);
     useEffect(()=>{
        // fetch data into static_tasks
        const fetchTasks = async () => {
-        const res = await axios.get("http://localhost:5000/tasks");
+        const res = await axios.get("http://localhost:5000/tasks",
+        {headers: {Authorization: `Bearer ${jwtToken}`}});
         setData(res.data.tasks);
        };
        fetchTasks();
-    },[]);
+       setRefreshData(false);
+    }, [refreshData]);
 
     const [sortOpt,setSortOpt] = useState("due");
 
@@ -104,13 +98,14 @@ const Dashboard:React.FC = ()=>{
                 dueDate: selectedDate
             },
             {
-                // headers: {
-                //     Authorization: `JWT ${jwtToken}`
-                // }
+                headers: {
+                    Authorization: `Bearer ${jwtToken}`
+                }
             }
         );
         //close the modal
         toggleModal();
+        setRefreshData(true);
     }
 
 
@@ -126,12 +121,12 @@ const Dashboard:React.FC = ()=>{
     }
 
     const [taskOnAct,setTaskOnAct] = useState("");
-        //Delete task
-        const [isDelModalOpen,setDelModalOpen] = useState<boolean>(false);
-        const toggleDelModal = (id:string) => {
-            setTaskOnAct(id);
-            setDelModalOpen(true);
-        }
+    //Delete task
+    const [isDelModalOpen,setDelModalOpen] = useState<boolean>(false);
+    const toggleDelModal = (id:string) => {
+        setTaskOnAct(id);
+        setDelModalOpen(true);
+    }
 
     const deleteTask = async ()=>{
         setDelModalOpen(false);
@@ -139,12 +134,13 @@ const Dashboard:React.FC = ()=>{
             // `${url}/:${taskOnAct}`, url for production
             `http://localhost:5000/tasks/${taskOnAct}`,
             {
-                // headers: {
-                //     Authorization: `JWT ${jwtToken}`
-                // },
+                headers: {
+                    Authorization: `Bearer ${jwtToken}`
+                },
             }
         );
         setTaskOnAct("");
+        setRefreshData(true);
     }
 
     //Update task status
@@ -163,12 +159,15 @@ const Dashboard:React.FC = ()=>{
             {
                 status: new_status
             },
-            // headers: {
-            //     Authorization: `JWT ${jwtToken}`
-            // },
+            {
+                headers: {
+                    Authorization: `Bearer ${jwtToken}`
+                }
+            },
 
         ).then((res)=>{console.log(res.data)});
         setTaskOnAct("");
+        setRefreshData(true);
     }
 
     return (
