@@ -29,7 +29,7 @@ const Dashboard:React.FC = ()=>{
     useEffect(()=>{
        // fetch data into static_tasks
        const fetchTasks = async () => {
-        const res = await axios.get("/tasks",
+        const res = await axios.get("https://sesl1-challenge2.onrender.com/tasks",
         {headers: {Authorization: `Bearer ${jwtToken}`}});
         setData(res.data.tasks);
        };
@@ -90,7 +90,7 @@ const Dashboard:React.FC = ()=>{
         event.preventDefault();
         //add new task
         await axios.post(
-            `/tasks`,
+            `https://sesl1-challenge2.onrender.com/tasks`,
             {
                 title: inputs.title,
                 description: inputs.description,
@@ -133,7 +133,7 @@ const Dashboard:React.FC = ()=>{
     const deleteTask = async ()=>{
         setDelModalOpen(false);
         await axios.delete(
-            `/tasks/${taskOnAct}`,
+            `https://sesl1-challenge2.onrender.com/tasks/${taskOnAct}`,
             {
                 headers: {
                     Authorization: `Bearer ${jwtToken}`
@@ -155,7 +155,7 @@ const Dashboard:React.FC = ()=>{
         setUpdateModalOpen(false);
         //update req
         await axios.put(
-            `/tasks/${taskOnAct}`,
+            `https://sesl1-challenge2.onrender.com/tasks/${taskOnAct}`,
             {
                 status: new_status
             },

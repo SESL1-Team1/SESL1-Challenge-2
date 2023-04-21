@@ -9,7 +9,7 @@ const Login: React.FC = () => {
     const login = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            const res = await axios.post("/user/login", {
+            const res = await axios.post("https://sesl1-challenge2.onrender.com/user/login", {
                 name,
                 password
             }, { headers: { "Authorization": 'Bearer ' + localStorage.getItem("user_token") } });
