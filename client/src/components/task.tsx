@@ -1,25 +1,26 @@
 import React from "react";
-// import "../index.css";
+//import "../index.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash, faPenToSquare} from '@fortawesome/free-solid-svg-icons'
 
 type Task = {
-    id: number,
+    _id: string,
     title: string;
     description: string,
     status: string,
     due: Date
 };
+type taskKey = keyof Task;
 
 interface Prop{
     task:Task,
-    deleteTask: React.MouseEventHandler<HTMLButtonElement>,
-    updateStatus: React.MouseEventHandler<HTMLButtonElement>,
+    clickDel:React.MouseEventHandler<HTMLButtonElement>,
+    clickUpdate: React.MouseEventHandler<HTMLButtonElement>
 }
 
-const TaskItem: React.FC<Prop> = ({task, deleteTask, updateStatus})=>{
+const TaskItem: React.FC<Prop> = ({task, clickDel, clickUpdate})=>{
     return (
-            <div className="bg-orange-200 shadow-md rounded grid grid-cols-12 mx-20 px-4 py-4 h-20">
+            <div className="bg-orange-200 shadow-md rounded grid grid-cols-12 mx-20 px-4 py-4 h-20" id={task._id}>
                 <div className="col-span-2 font-semibold text-ellipsis">
                     {task.title}
                 </div>
@@ -33,12 +34,12 @@ const TaskItem: React.FC<Prop> = ({task, deleteTask, updateStatus})=>{
                     {task.due.toDateString().substring(4,10)}
                 </div>
                 <div className="col-span-1 pl-7">
-                    <button onClick={deleteTask}>
+                    <button onClick={clickDel}>
                         <FontAwesomeIcon icon={faTrash}/>
                     </button>
                 </div>
                 <div className="col-span-1 pl-7">
-                    <button onClick={deleteTask}>
+                    <button onClick={clickUpdate}>
                         <FontAwesomeIcon icon={faPenToSquare}/>
                     </button>
                 </div>
@@ -46,5 +47,5 @@ const TaskItem: React.FC<Prop> = ({task, deleteTask, updateStatus})=>{
     );
 }
 
-export {type Task};
+export {type Task, type taskKey};
 export default TaskItem;
