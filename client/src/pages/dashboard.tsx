@@ -17,7 +17,7 @@ let test_tasks:Task[] = [
 ]
 
 //backend-url
-const url = "https://localhost:5000" 
+// const url = "https://localhost:5000" 
 //user token
 const jwtToken = localStorage.getItem("user_token");
 
@@ -29,7 +29,7 @@ const Dashboard:React.FC = ()=>{
     useEffect(()=>{
        // fetch data into static_tasks
        const fetchTasks = async () => {
-        const res = await axios.get(`/tasks`,
+        const res = await axios.get("/tasks",
         {headers: {Authorization: `Bearer ${jwtToken}`}});
         setData(res.data.tasks);
        };
