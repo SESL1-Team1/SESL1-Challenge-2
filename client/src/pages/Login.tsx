@@ -9,7 +9,7 @@ const Login: React.FC = () => {
     const login = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            const res = await axios.post("http://localhost:5000/user/login", {
+            const res = await axios.post("/user/login", {
                 name,
                 password
             }, { headers: { "Authorization": 'Bearer ' + localStorage.getItem("user_token") } });

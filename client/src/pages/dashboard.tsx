@@ -17,7 +17,7 @@ let test_tasks:Task[] = [
 ]
 
 //backend-url
-const url = "http://localhost:5000" 
+// const url = "https://localhost:5000" 
 //user token
 const jwtToken = localStorage.getItem("user_token");
 
@@ -29,7 +29,7 @@ const Dashboard:React.FC = ()=>{
     useEffect(()=>{
        // fetch data into static_tasks
        const fetchTasks = async () => {
-        const res = await axios.get("http://localhost:5000/tasks",
+        const res = await axios.get("/tasks",
         {headers: {Authorization: `Bearer ${jwtToken}`}});
         setData(res.data.tasks);
        };
@@ -90,8 +90,7 @@ const Dashboard:React.FC = ()=>{
         event.preventDefault();
         //add new task
         await axios.post(
-            // `${url}/tasks`, url for production
-            `http://localhost:5000/tasks`,
+            `/tasks`,
             {
                 title: inputs.title,
                 description: inputs.description,
@@ -134,8 +133,7 @@ const Dashboard:React.FC = ()=>{
     const deleteTask = async ()=>{
         setDelModalOpen(false);
         await axios.delete(
-            // `${url}/:${taskOnAct}`, url for production
-            `http://localhost:5000/tasks/${taskOnAct}`,
+            `/tasks/${taskOnAct}`,
             {
                 headers: {
                     Authorization: `Bearer ${jwtToken}`
@@ -157,8 +155,7 @@ const Dashboard:React.FC = ()=>{
         setUpdateModalOpen(false);
         //update req
         await axios.put(
-            // `${url}/:${string}`, url for production
-            `http://localhost:5000/tasks/${taskOnAct}`,
+            `/tasks/${taskOnAct}`,
             {
                 status: new_status
             },
