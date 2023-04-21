@@ -4,11 +4,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash, faPenToSquare} from '@fortawesome/free-solid-svg-icons'
 
 type Task = {
-    id: number,
+    _id: number,
     title: string;
     description: string,
     status: string,
-    due: Date
+    dueDate: Date
 };
 
 interface Prop{
@@ -30,7 +30,7 @@ const TaskItem: React.FC<Prop> = ({task, deleteTask, updateStatus})=>{
                     {task.status}
                 </div>
                 <div className="col-span-2">
-                    {task.due.toDateString().substring(4,10)}
+                    {new Date(task.dueDate).toDateString().substring(4,20)}
                 </div>
                 <div className="col-span-1 pl-7">
                     <button onClick={deleteTask}>
@@ -38,7 +38,7 @@ const TaskItem: React.FC<Prop> = ({task, deleteTask, updateStatus})=>{
                     </button>
                 </div>
                 <div className="col-span-1 pl-7">
-                    <button onClick={deleteTask}>
+                    <button onClick={updateStatus}>
                         <FontAwesomeIcon icon={faPenToSquare}/>
                     </button>
                 </div>

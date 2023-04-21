@@ -2,6 +2,7 @@
   "name": "sesl1-challenge-2",
   "version": "1.0.0",
   "main": "server.ts",
+  "license": "MIT",
   "scripts": {
     "watch": "tsc -w",
     "server": "nodemon server.ts",

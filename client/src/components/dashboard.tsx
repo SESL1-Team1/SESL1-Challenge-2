@@ -3,34 +3,62 @@ import axios from "axios";
 import TaskItem, {Task} from './task';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSort} from '@fortawesome/free-solid-svg-icons'
+import ReactPaginate from 'react-paginate';
+import 'bootstrap/dist/css/bootstrap.css';
 
-//static for styling
-const tasks:Task[] = [
-    {id:1,title:"task 1",description:"This is task 1",status: "completed", due: new Date()},
-    {id:2,title:"task 2",description:"This is task 2",status: "completed", due: new Date()},
-    {id:3,title:"task 3",description:"This is task 3",status: "completed", due: new Date()},
-    {id:4,title:"task 4",description:"This is task 4",status: "completed", due: new Date()},
-]
-        
-
-const deleteTask = (id:Number)=>{
-    
-}
 
 const updateStatus = ()=>{
 
 }
 
 
-const Dashboard:React.FC = ()=>{
+const Dashboard:React.FC = () =>{
     const [sortOpt,setSortOpt] = useState("Due");
+    // TODO: fix sorting, uses previous state, needs to be in useEffect?
     // useEffect(()=>{
 
     // });
+    const [tasks, setTasks] = useState<Task[]>([]);
+    const [pageNumber, setPageNumber] = useState(0);
+
+    const tasksPerPage = 5;
+    const pagesVisited = pageNumber * tasksPerPage;
+    const pageCount = Math.ceil(tasks.length / tasksPerPage);
+    const displayTasks = tasks.slice(pagesVisited, pagesVisited + tasksPerPage);
+
+    // TODO: have tasks update properly when changed in useEffect - currently when used in useEffect it runs every second
+    const fetchTasks = async () => {
+        const res = await axios.get("http://localhost:5000/tasks");
+        setTasks(res.data.tasks);
+    }
+
+    useEffect(() => {
+        fetchTasks();
+    }, [])
+
+    const deleteTask = async (id: number) => {
+        await axios.delete(`http://localhost:5000/tasks/${id}`, { method: "DELETE" });
+        fetchTasks();
+    }
+
+    const sortTasks = (tasks:Task[]) => {
+        if (sortOpt === "Title") {
+            tasks = tasks.sort((a, b) => (a.title > b.title) ? 1 : -1);
+        } else if (sortOpt === "Status") {
+            tasks = tasks.sort((a, b) => (a.status > b.status) ? 1 : -1);
+        } else if (sortOpt === "Due") {
+            tasks = tasks.sort((a, b) => (a.dueDate > b.dueDate) ? 1 : -1);
+        }
+    }
 
     const handleSort = (e:any) => {
         setSortOpt(e.target.value);
+        sortTasks(tasks);
         console.log(sortOpt);
+    }
+
+    const handlePageChange = ({ selected: selectedPage }: { selected: number } ) => {
+        setPageNumber(selectedPage);
     }
 
     return (
@@ -61,7 +89,28 @@ const Dashboard:React.FC = ()=>{
                 </div>
             </div>
             <div className="font-san grid gap-y-6 w-screen mb-8">
-                {tasks.map(task => <TaskItem task={task} deleteTask ={()=>deleteTask(task.id)} updateStatus={updateStatus} key={task.id}/>)}
+                {displayTasks.map(task => <TaskItem task={task} deleteTask ={()=>deleteTask(task._id)} updateStatus={updateStatus} key={task._id}/>)}
+            </div>
+            <div className="flex justify-center">
+                <ReactPaginate
+                    previousLabel={"Prev"}
+                    nextLabel={"Next"}
+                    breakLabel={"..."}
+                    pageCount={pageCount}
+                    marginPagesDisplayed={1}
+                    pageRangeDisplayed={3}
+                    pageClassName={"page-item"}
+                    pageLinkClassName={"page-link"}
+                    previousClassName={"page-item"}
+                    previousLinkClassName={"page-link"}
+                    nextClassName={"page-item"}
+                    nextLinkClassName={"page-link"}
+                    breakClassName="page-item"
+                    breakLinkClassName="page-link"
+                    onPageChange={handlePageChange}
+                    containerClassName={"pagination"}
+                    activeClassName={"active"}
+                />
             </div>
         </>
     );
