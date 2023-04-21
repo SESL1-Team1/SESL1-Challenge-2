@@ -68,6 +68,10 @@ const loginUser = asyncHandler(async (req, res) => {
     }
 });
 
+const logoutUser = asyncHandler(async (req, res) => {
+    res.send('User logged out');
+});
+
 const getUserData = asyncHandler(async (req, res) => {
     const { _id, name, tasks } = await User.findById(req.user.id);
 
@@ -89,5 +93,6 @@ const generateToken = (id) => {
 module.exports = {
     registerUser,
     loginUser,
+    logoutUser,
     getUserData,
 };
