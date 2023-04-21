@@ -24,7 +24,7 @@ const TaskItem: React.FC<Prop> = ({task, clickDel, clickUpdate})=>{
                 <div className="col-span-2 font-semibold truncate mr-2">
                     {task.title}
                 </div>
-                <div className="col-span-4 truncate">
+                <div className="col-span-4 truncate mr-2">
                     {task.description}
                 </div>
                 <div className="col-span-2">

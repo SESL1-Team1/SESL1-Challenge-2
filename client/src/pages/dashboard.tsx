@@ -17,7 +17,7 @@ let test_tasks:Task[] = [
 ]
 
 //backend-url
-const url = "http://localhost:5000" 
+const url = "https://localhost:5000" 
 //user token
 const jwtToken = localStorage.getItem("user_token");
 
@@ -29,7 +29,7 @@ const Dashboard:React.FC = ()=>{
     useEffect(()=>{
        // fetch data into static_tasks
        const fetchTasks = async () => {
-        const res = await axios.get("http://localhost:5000/tasks",
+        const res = await axios.get(`/tasks`,
         {headers: {Authorization: `Bearer ${jwtToken}`}});
         setData(res.data.tasks);
        };
@@ -90,8 +90,7 @@ const Dashboard:React.FC = ()=>{
         event.preventDefault();
         //add new task
         await axios.post(
-            // `${url}/tasks`, url for production
-            `http://localhost:5000/tasks`,
+            `/tasks`,
             {
                 title: inputs.title,
                 description: inputs.description,
@@ -134,8 +133,7 @@ const Dashboard:React.FC = ()=>{
     const deleteTask = async ()=>{
         setDelModalOpen(false);
         await axios.delete(
-            // `${url}/:${taskOnAct}`, url for production
-            `http://localhost:5000/tasks/${taskOnAct}`,
+            `/tasks/${taskOnAct}`,
             {
                 headers: {
                     Authorization: `Bearer ${jwtToken}`
@@ -157,8 +155,7 @@ const Dashboard:React.FC = ()=>{
         setUpdateModalOpen(false);
         //update req
         await axios.put(
-            // `${url}/:${string}`, url for production
-            `http://localhost:5000/tasks/${taskOnAct}`,
+            `/tasks/${taskOnAct}`,
             {
                 status: new_status
             },
@@ -240,7 +237,7 @@ const Dashboard:React.FC = ()=>{
                 {isDelModalOpen ?
                      <div tabIndex={-1} className="fixed top-0 z-50 p-0 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(30%)] mt-[calc(20%)] mx-[calc(30%)] font-serif">
                         <div className="relative max-h-full">
-                            <div className="relative bg-white rounded-lg shadow-xl">
+                            <div className="relative bg-white rounded-lg shadow-xl border-2 border-black">
                                 <button type="button" onClick={()=>setDelModalOpen(false)} className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center">
                                     <FontAwesomeIcon icon={faXmark}/>
                                     <span className="sr-only">Close modal</span>
@@ -261,7 +258,7 @@ const Dashboard:React.FC = ()=>{
                 {isUpdateModalOpen ? 
                     <div tabIndex={-1} className="fixed top-0 z-50 p-0 h-full overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(30%)] mt-[calc(20%)] mx-[calc(30%)] font-serif">
                         <div className="relative max-h-full">
-                            <div className="relative bg-white rounded-lg shadow-xl">
+                            <div className="relative bg-white rounded-lg shadow-xl border-2 border-black">
                                 <button type="button" onClick={()=>setUpdateModalOpen(false)} className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center">
                                     <FontAwesomeIcon icon={faXmark}/>
                                     <span className="sr-only">Close modal</span>

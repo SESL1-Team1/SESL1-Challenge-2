@@ -10,7 +10,7 @@ const Header: React.FC = () => {
 
     const logout = async () => {
         try {
-            await axios.get("http://localhost:5000/user/logout",
+            await axios.get("/user/logout",
                 { headers: { "Authorization": 'Bearer ' + localStorage.getItem("user_token") } });
             localStorage.removeItem("user_token");
             window.location.replace("/");
@@ -20,7 +20,7 @@ const Header: React.FC = () => {
     }
 
     const fetchUser = async () => {
-        const res = await axios.get("http://localhost:5000/user",
+        const res = await axios.get("/user",
             { headers: { "Authorization": 'Bearer ' + localStorage.getItem("user_token") } });
         setUser(res.data.name);
     }
@@ -31,7 +31,7 @@ const Header: React.FC = () => {
 
     return (
         <div className="flex justify-between items-center p-4 bg-gradient-to-r from-purple-900 via-purple-600 to-purple-500 text-white border-b font-mono">
-            <div className="flex items-center pr-0">
+            <div className="flex items-center pr-0 ml-2">
                 <Link to="/">
                     <h1 className="text-2xl"><FontAwesomeIcon icon={faCalendarCheck} />     Task Manager</h1>
                 </Link>
@@ -53,11 +53,13 @@ const Header: React.FC = () => {
                         </Link>
                     </li>
                     : null }
+                    {user ?
                     <li>
                         <Link to="/login" onClick={logout}>
                             <FontAwesomeIcon icon={faSignOutAlt} /> Logout
                         </Link>
                     </li>
+                    : null }
                 </ul>
             </div>
         </div>

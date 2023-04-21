@@ -10,7 +10,7 @@ const Register: React.FC = () => {
     const register = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            const res = await axios.post("http://localhost:5000/user/register", {
+            const res = await axios.post("/user/register", {
                 name,
                 password,
                 confirmPassword,
@@ -23,7 +23,7 @@ const Register: React.FC = () => {
     }
 
     return (
-        <div className="register w-3/12 my-[calc(6.5%)] mx-auto rounded-lg text-md border-4 border-purple-600 border-double font-mono bg-purple-100 p-8">
+        <div className="register w-3/12 my-[calc(4%)] mx-auto rounded-lg text-md border-4 border-purple-600 border-double font-mono bg-purple-100 p-8">
             <h3 className="flex items-center justify-center mb-4 text-xl font-medium text-gray-900">Register</h3>
             <form onSubmit={register} className="space-y-6">
                 <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
@@ -32,7 +32,7 @@ const Register: React.FC = () => {
                 <input id="password" type="password" placeholder="password" onChange={e => setPassword(e.target.value)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mt-0"/>
                 <label htmlFor="confirm_password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirm Password</label>
                 <input id="confirm_password" type="password" placeholder="confirm password" onChange={e => setConfirmPassword(e.target.value)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mt-0"/>
-                <p className="text-center">Already registered? <a href="/login">Login here</a></p>
+                <p className="text-center">Already registered? <br/><a href="/login" className="font-semibold">Login here</a></p>
                 <button type="submit" className="flex focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mx-auto mt-5">Register</button>
                 <span>{error}</span>
             </form>
