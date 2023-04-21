@@ -281,7 +281,7 @@ const Dashboard:React.FC = ()=>{
                         </div>
                     </div>
                 :null}
-                {tasks.map(task => <TaskItem task={task} clickDel={()=>{toggleDelModal(task._id)}} clickUpdate={()=>toggleUpdateModal(task._id)} key={task._id}/>)}
+                {displayTasks.map(task => <TaskItem task={task} clickDel={()=>{toggleDelModal(task._id)}} clickUpdate={()=>toggleUpdateModal(task._id)} key={task._id}/>)}
             </div>
             <div className="flex justify-center">
                 <ReactPaginate
