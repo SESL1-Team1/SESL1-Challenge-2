@@ -96,7 +96,7 @@ const Dashboard:React.FC = ()=>{
                 title: inputs.title,
                 description: inputs.description,
                 status: "Not Started",
-                dueDate: selectedDate
+                dueDate: selectedDate ? selectedDate : new Date()
             },
             {
                 headers: {
@@ -104,6 +104,8 @@ const Dashboard:React.FC = ()=>{
                 }
             }
         );
+        setSelectedDate(null);
+        setInputs({title:"",description:""});
         //close the modal
         toggleModal();
         setRefreshData(true);
@@ -166,7 +168,7 @@ const Dashboard:React.FC = ()=>{
                 }
             },
 
-        ).then((res)=>{console.log(res.data)});
+        );
         setTaskOnAct("");
         setRefreshData(true);
     }

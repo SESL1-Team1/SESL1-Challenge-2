@@ -34,13 +34,13 @@ const TaskItem: React.FC<Prop> = ({task, clickDel, clickUpdate})=>{
                     {new Date(task.dueDate).toDateString().substring(4,20)}
                 </div>
                 <div className="col-span-1 pl-7">
-                    <button onClick={clickDel}>
-                        <FontAwesomeIcon icon={faTrash}/>
+                    <button onClick={clickUpdate}>
+                        <FontAwesomeIcon icon={faPenToSquare}/>
                     </button>
                 </div>
                 <div className="col-span-1 pl-7">
-                    <button onClick={clickUpdate}>
-                        <FontAwesomeIcon icon={faPenToSquare}/>
+                    <button onClick={clickDel}>
+                        <FontAwesomeIcon icon={faTrash}/>
                     </button>
                 </div>
             </div>

@@ -36,7 +36,7 @@ const Header: React.FC = () => {
                     <h1 className="text-2xl"><FontAwesomeIcon icon={faCalendarCheck} />     Task Manager</h1>
                 </Link>
             </div>
-            <span className="mr-2 text-serif text-white">Welcome {user}</span>
+            {user ? <span className="mr-2 text-serif text-white">Welcome {user}</span> : null }
             <div className="">
                 <ul className="items-center mx-5 justify-between text-white">
                     {!user ?
@@ -46,11 +46,13 @@ const Header: React.FC = () => {
                             </Link>
                         </li>
                     : null }
+                    {!user ?
                     <li>
                         <Link to="/register">
                             <FontAwesomeIcon icon={faUser} /> Register
                         </Link>
                     </li>
+                    : null }
                     <li>
                         <Link to="/login" onClick={logout}>
                             <FontAwesomeIcon icon={faSignOutAlt} /> Logout
