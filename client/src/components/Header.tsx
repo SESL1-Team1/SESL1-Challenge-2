@@ -40,11 +40,13 @@ const Header: React.FC = () => {
             <span className="mr-2">Welcome {user}</span>
             <div className="">
                 <ul className="flex items-center ml-5 mr-5 justify-between">
+                    {!user ?
                     <li>
                     <Link to="/login">
                         <FontAwesomeIcon icon={faSignInAlt} /> Login
                     </Link>
                     </li>
+                    : null }
                     <li>
                     <Link to="/register">
                         <FontAwesomeIcon icon={faUser} /> Register
