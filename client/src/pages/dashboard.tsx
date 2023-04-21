@@ -240,7 +240,7 @@ const Dashboard:React.FC = ()=>{
                 {isDelModalOpen ?
                      <div tabIndex={-1} className="fixed top-0 z-50 p-0 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(30%)] mt-[calc(20%)] mx-[calc(30%)] font-serif">
                         <div className="relative max-h-full">
-                            <div className="relative bg-white rounded-lg shadow-xl">
+                            <div className="relative bg-white rounded-lg shadow-xl border-2 border-black">
                                 <button type="button" onClick={()=>setDelModalOpen(false)} className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center">
                                     <FontAwesomeIcon icon={faXmark}/>
                                     <span className="sr-only">Close modal</span>
@@ -261,7 +261,7 @@ const Dashboard:React.FC = ()=>{
                 {isUpdateModalOpen ? 
                     <div tabIndex={-1} className="fixed top-0 z-50 p-0 h-full overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(30%)] mt-[calc(20%)] mx-[calc(30%)] font-serif">
                         <div className="relative max-h-full">
-                            <div className="relative bg-white rounded-lg shadow-xl">
+                            <div className="relative bg-white rounded-lg shadow-xl border-2 border-black">
                                 <button type="button" onClick={()=>setUpdateModalOpen(false)} className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center">
                                     <FontAwesomeIcon icon={faXmark}/>
                                     <span className="sr-only">Close modal</span>

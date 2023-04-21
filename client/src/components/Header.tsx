@@ -31,7 +31,7 @@ const Header: React.FC = () => {
 
     return (
         <div className="flex justify-between items-center p-4 bg-gradient-to-r from-purple-900 via-purple-600 to-purple-500 text-white border-b font-mono">
-            <div className="flex items-center pr-0">
+            <div className="flex items-center pr-0 ml-2">
                 <Link to="/">
                     <h1 className="text-2xl"><FontAwesomeIcon icon={faCalendarCheck} />     Task Manager</h1>
                 </Link>
