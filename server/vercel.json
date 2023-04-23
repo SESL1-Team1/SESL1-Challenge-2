@@ -3,7 +3,8 @@
     "github": {
         "silent": true
     },
-    "builds": [{ "src": "*.js", "use": "@vercel/node" }],
-    "rewrites": [
-        { "source": "/user", "destination": "./routes/userRoutes.js" }]
+    "builds": [{ "src": "server.ts", "use": "@vercel/node" }],
+
+    "routes": [
+        { "src": "/user", "dest": "./routes/userRoutes.js" }]
 }
