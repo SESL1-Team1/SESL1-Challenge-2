@@ -3,11 +3,15 @@
   "version": "1.0.0",
   "main": "server.ts",
   "license": "MIT",
+  "engines":{
+    "node": ">=14.0.0"
+  },
   "scripts": {
     "watch": "tsc -w",
     "server": "nodemon server.ts",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "client": "npm start --prefix ../client"
+    "client": "npm start --prefix ../client",
+    "start": "ts-node server.ts"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
