@@ -3,6 +3,6 @@
     "github": {
         "silent": true
     },
-
+    "builds": [{ "src": "./server", "use": "@vercel/node" }],
     "rewrites": [{ "source": "/(.*)", "destination": "server.ts" }]
 }
