@@ -10,7 +10,7 @@ const Register: React.FC = () => {
     const register = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            const res = await axios.post("https://sesl1-challenge2.onrender.com/user/register", {
+            const res = await axios.post("https://sesl1-challenge-2-production.up.railway.app/user/register", {
                 name,
                 password,
                 confirmPassword,

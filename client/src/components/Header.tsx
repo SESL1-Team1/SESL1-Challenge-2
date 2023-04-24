@@ -10,7 +10,7 @@ const Header: React.FC = () => {
 
     const logout = async () => {
         try {
-            await axios.get("https://sesl1-challenge2.onrender.com/user/logout",
+            await axios.get("https://sesl1-challenge-2-production.up.railway.app/user/logout",
                 { headers: { "Authorization": 'Bearer ' + localStorage.getItem("user_token") } });
             localStorage.removeItem("user_token");
             window.location.replace("/");
@@ -20,7 +20,7 @@ const Header: React.FC = () => {
     }
 
     const fetchUser = async () => {
-        const res = await axios.get("https://sesl1-challenge2.onrender.com/user",
+        const res = await axios.get("https://sesl1-challenge-2-production.up.railway.app/user",
             { headers: { "Authorization": 'Bearer ' + localStorage.getItem("user_token") } });
         setUser(res.data.name);
     }
