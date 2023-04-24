@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "main": "server.ts",
   "license": "MIT",
-  "engines":{
-    "node": ">=14.0.0"
-  },
   "scripts": {
     "watch": "tsc -w",
     "server": "nodemon server.ts",

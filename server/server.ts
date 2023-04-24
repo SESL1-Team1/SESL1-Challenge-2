@@ -22,10 +22,10 @@ app.get('/', (_req, res) => {
 });
 
 mongoose.connect(process.env.MONGO_URL!).then(() => {
-    // app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+    app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
     console.log('Connected to DB');
 }).catch(err => {
     console.log(err);
 });
 
-module.exports = app;
+// module.exports = app;
